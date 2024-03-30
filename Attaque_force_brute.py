@@ -1,5 +1,20 @@
-import hashlib
+
 import itertools
+import hashlib
+
+def calculate_md5(message):
+    # Créez un objet hasher MD5
+    hasher = hashlib.md5()
+    
+    # Mettez à jour le hasher avec le message
+    hasher.update(message.encode('utf-8'))
+    
+    # Renvoie le hachage MD5 hexadécimal
+    return hasher.hexdigest()
+
+# Exemple d'utilisation
+message = 'aa'
+md5_hash = calculate_md5(message)
 
 def generate_combinations(characters, length):
     combinations = []
@@ -11,13 +26,13 @@ def calculate_md5(text):
     return hashlib.md5(text.encode()).hexdigest()
 
 # Liste des caractères
-characters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'
+characters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
 
 # Longueur maximale des combinaisons
 max_length = 5  # Vous pouvez ajuster cette valeur selon vos besoins
 
 # Valeur de hachage MD5 à comparer
-h1 = "e80b5017098950fc58aad83c8c14978e"
+h1 = md5_hash
 
 # Générer les combinaisons
 all_combinations = generate_combinations(characters, max_length)
