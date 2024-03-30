@@ -44,3 +44,28 @@ def brute_force():
          test(chaine, mot)
          
 brute_force()
+
+
+#algorithme foce brute avec fonction d'achage
+import hashlib
+
+def force_brute(hashed_password):
+ 
+ alphabet = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+    for i in range(len(alphabet)):
+        for j in range(len(alphabet)):
+            for k in range(len(alphabet)):
+                for l in range(len(alphabet)):
+                    password = alphabet[i] + alphabet[j] + alphabet[k] + alphabet[l]
+                    hashed = hashlib.md5(password.encode()).hexdigest()
+                    if hashed == hashed_password:
+                        return password
+    return None
+
+hashed_password = "21232f297a57a5a743894a0e4a801fc3"
+password = force_brute(hashed_password)
+
+if password is not None:
+    print(f"Mot de passe trouvé: {password}")
+else:
+    print("Mot de passe non trouvé.")
