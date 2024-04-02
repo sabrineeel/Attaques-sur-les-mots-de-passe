@@ -8,9 +8,9 @@ def calculate_md5(message):
 
 
 
-def charger_dictionnaire(rockyou):
+def charger_dictionnaire(dictionnaire):
     try:
-        with open(rockyou, 'rb') as fichier:
+        with open(dictionnaire, 'rb') as fichier:
             mots_de_passe = fichier.read().decode('latin-1').splitlines()
             print("Dictionnaire chargé avec succès.")
         return mots_de_passe
@@ -32,14 +32,24 @@ print("le hacahge de ce mot de pass est: " +hachage_entre)
 
 
 # Charger le dictionnaire de mots de passe
-dictionnaire = charger_dictionnaire("rockyou.txt")
+dictionnaire = charger_dictionnaire("dictionnaire.txt")
 
 # Convertir les hachages MD5 dans le dictionnaire en un ensemble pour une recherche plus rapide
 dictionnaire_hachages = set(calculate_md5(mot_de_passe) for mot_de_passe in dictionnaire)
 
+# Initialiser une variable pour stocker le mot de passe correspondant
+mot_de_passe_correspondant = None
 
-# Vérifier si le hachage MD5 du mot de passe entré est dans le dictionnaire des hachages
-if hachage_entre in dictionnaire_hachages:
-    print("Le mot de passe qui a le même hachage MD5 est :", mot_de_passe_entre)
+# Parcourir le dictionnaire et chercher un mot de passe avec le même hachage MD5
+index = 0
+while mot_de_passe_correspondant is None and index < len(dictionnaire):
+    if calculate_md5(dictionnaire[index]) == hachage_entre:
+        mot_de_passe_correspondant = dictionnaire[index]
+    else:
+        index += 1
+
+# Si un mot de passe correspondant est trouvé, l'afficher
+if mot_de_passe_correspondant:
+    print("Un mot de passe qui a le même hachage MD5 est :", mot_de_passe_correspondant)
 else:
     print("Aucun mot de passe avec le même hachage MD5 n'a été trouvé dans le dictionnaire.")
