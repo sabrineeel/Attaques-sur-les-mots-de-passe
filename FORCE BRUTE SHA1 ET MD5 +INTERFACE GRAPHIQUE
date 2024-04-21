@@ -1,0 +1,107 @@
+import tkinter as tk
+from tkinter import messagebox
+from tkinter.scrolledtext import ScrolledText
+import hashlib
+import itertools
+import re
+
+def validate_hash(hash_value, hash_type):
+    if hash_type == "MD5":
+        return re.match(r"^[a-fA-F0-9]{32}$", hash_value) is not None
+    elif hash_type == "SHA1":
+        return re.match(r"^[a-fA-F0-9]{40}$", hash_value) is not None
+    else:
+        return False
+
+def validate_password_length(password_length):
+    return password_length.isdigit() and int(password_length) > 0
+
+def calculate_hash(message, hash_type):
+    if hash_type == "MD5":
+        hasher = hashlib.md5()
+    elif hash_type == "SHA1":
+        hasher = hashlib.sha1()
+    else:
+        return None
+
+    hasher.update(message.encode('utf-8'))
+    return hasher.hexdigest()
+
+def generate_combinations(characters, length):
+    for combination in itertools.product(characters, repeat=length):
+        yield ''.join(combination)
+
+def crack_password():
+    hash_value = hash_entry.get()
+    password_length = length_entry.get()
+    hash_type = hash_choice.get()
+
+    if not validate_hash(hash_value, hash_type):
+        messagebox.showerror("Error", f"Invalid {hash_type} hash.")
+        return
+
+    if not validate_password_length(password_length):
+        messagebox.showerror("Error", "Invalid password length.")
+        return
+
+    password_length = int(password_length)
+    characters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'
+
+    result_text.delete(1.0, tk.END)
+    test_text.delete(1.0, tk.END)  # Clear previous test information
+
+    if hash_type == "MD5":
+        hash_func = hashlib.md5
+    elif hash_type == "SHA1":
+        hash_func = hashlib.sha1
+
+    for length in range(password_length, 0, -1):
+        for combination in generate_combinations(characters, length):
+            calculated_hash = calculate_hash(combination, hash_type)
+            test_text.insert(tk.END, f"Testing combination: {combination}, Hash: {calculated_hash}\n")
+            test_text.update()  # Update the test display
+            if calculated_hash == hash_value:
+                result_text.insert(tk.END, f"Password found: {combination}\n")
+                result_text.tag_configure("found", foreground="green")
+                result_text.tag_add("found", "1.0", "end")
+                return
+            test_text.delete(1.0, tk.END)  # Clear the test display for the next combination
+
+    result_text.insert(tk.END, "Password not found.\n")
+    result_text.tag_configure("not_found", foreground="red")
+    result_text.tag_add("not_found", "1.0", "end")
+
+# Create GUI
+root = tk.Tk()
+root.title("Password Cracker")
+
+hash_label = tk.Label(root, text="Hash:")
+hash_label.pack()
+
+hash_choice = tk.StringVar()
+hash_choice.set("MD5")  # Default value
+hash_md5_radio = tk.Radiobutton(root, text="MD5", variable=hash_choice, value="MD5")
+hash_md5_radio.pack()
+hash_sha1_radio = tk.Radiobutton(root, text="SHA1", variable=hash_choice, value="SHA1")
+hash_sha1_radio.pack()
+
+hash_entry_label = tk.Label(root, text="Hash Value:")
+hash_entry_label.pack()
+hash_entry = tk.Entry(root, width=50)
+hash_entry.pack()
+
+length_label = tk.Label(root, text="Password Length:")
+length_label.pack()
+length_entry = tk.Entry(root, width=50)
+length_entry.pack()
+
+crack_button = tk.Button(root, text="Crack", command=crack_password, width=20)
+crack_button.pack()
+
+result_text = ScrolledText(root, width=70, height=10)
+result_text.pack()
+
+test_text = ScrolledText(root, width=70, height=10)
+test_text.pack()
+
+root.mainloop()
