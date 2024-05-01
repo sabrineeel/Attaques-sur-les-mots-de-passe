@@ -1,4 +1,5 @@
 import hashlib
+
 #fonction de hachage md5:
 def calculate_md5(message):
     hasher = hashlib.md5()
@@ -41,32 +42,31 @@ def generate_variations(word):
     return list(variations)  # Convertir l'ensemble en liste pour respecter le format d'origine
 
 # Charger le dictionnaire de mots de passe
-dictionnaire = charger_dictionnaire("rockyou.txt")
+dictionnaire = charger_dictionnaire("dic.txt")
 
 # Créer une liste pour stocker toutes les variations de mots de passe
 variations_totales = []
-i=0
+j=0
 
 # Si le dictionnaire est chargé avec succès, générer des variations pour chaque mot de passe et les ajouter à la liste
 if dictionnaire:
     for mot_de_passe in dictionnaire:
-        print(i,": mot de passe actuel", mot_de_passe) 
+        print(j,": mot de passe actuel", mot_de_passe) 
         variations = generate_variations(mot_de_passe)
         print("les variation: ",variations)
         variations_totales.extend(variations)
-        i=i+1
+        j=j+1
         
-
 
 
 # Demander à l'utilisateur de saisir un hachage MD5
 hachage_entre = input("Entrez le hachage MD5 à rechercher: ")
 
-# Convertir les hachages MD5 dans le dictionnaire en un ensemble pour une recherche plus rapide
-dictionnaire_hachages = set(calculate_md5(mot_de_passe) for mot_de_passe in dictionnaire)
-
 # Initialiser une variable pour stocker le mot de passe correspondant
 mot_de_passe_correspondant = None
+
+# Convertir les hachages MD5 dans le dictionnaire en un ensemble pour une recherche plus rapide
+dictionnaire_hachages = set(calculate_md5(mot_de_passe) for mot_de_passe in dictionnaire)
 
 # Parcourir le dictionnaire et chercher un mot de passe avec le même hachage MD5
 for mot_de_passe in dictionnaire:
@@ -74,21 +74,21 @@ for mot_de_passe in dictionnaire:
         mot_de_passe_correspondant = mot_de_passe
         break
 
-# Si un mot de passe correspondant est trouvé, l'afficher
+# Si un mot de passe correspondant est trouvé dans le dictionnaire, afficher le mot de passe
 if mot_de_passe_correspondant:
     print("Un mot de passe qui a le même hachage MD5 est :", mot_de_passe_correspondant)
 else:
-    # Convertir les hachages MD5 dans la liste de variations en un ensemble pour une recherche plus rapide
-    variations_hachages = set(calculate_md5(variation) for variation in variations_totales)
-    
-    # Parcourir les variations et chercher un hachage MD5 correspondant
-    for variation, hachage in zip(variations_totales, variations_hachages):
-        if hachage == hachage_entre:
-            mot_de_passe_correspondant = variation
-            break
-            
-    # Si un mot de passe correspondant est trouvé, l'afficher
-    if mot_de_passe_correspondant:
-        print("Un mot de passe qui a le même hachage MD5 est :", mot_de_passe_correspondant)
-    else:
-        print("Le mot de passe n'existe pas.")
+ # Convertir les hachages MD5 dans la liste de variations en un ensemble pour une recherche plus rapide
+ variations_hachages = []
+
+ for mot_de_passe in variations_totales:
+    hachage = calculate_md5(mot_de_passe)  # Calculer le hachage MD5
+    variations_hachages.append(hachage)  # Ajouter le hachage à la liste variations_hachages
+
+# Rechercher le hachage MD5 entré par l'utilisateur dans la liste des hachages des variations
+ if hachage_entre in variations_hachages:
+    index = variations_hachages.index(hachage_entre)
+    mot_de_passe_correspondant = variations_totales[index]
+    print("Un mot de passe qui a le même hachage MD5 est :", mot_de_passe_correspondant)
+ else:
+    print("Le mot de passe n'existe pas.")
