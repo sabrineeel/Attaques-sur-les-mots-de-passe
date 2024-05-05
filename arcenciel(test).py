@@ -43,7 +43,7 @@ def crack_password_6caracters(hash_value, table):
     password = search_rainbow_table(hash_value, table)
     if password:
         print(password)
-        for j in range(100):
+        for j in range(1000):
             word = hash_word(password)
            # print(word)
             password = reduce_hash_6_caracters(word)
@@ -57,7 +57,7 @@ def crack_password_6caracters(hash_value, table):
             hashreduit = reduce_hash_6_caracters(hashed_word)           
             if hashreduit == hash_value:
                 return hash_value_table  # <--- Return immediately when match found
-            for k in range(100):     
+            for k in range(1000):     
                                        
                 reduced_hash = reduce_hash_6_caracters(hashed_word)
               #  print(reduced_hash)
@@ -73,7 +73,7 @@ def crack_password_7caracters(hash_value, table):
     password = search_rainbow_table(hash_value, table)
     if password:
         print(password)
-        for j in range(100):
+        for j in range(1000):
             word = hash_word(password)
           
             password = reduce_hash_7_caracters(word)
@@ -87,7 +87,7 @@ def crack_password_7caracters(hash_value, table):
             hashreduit = reduce_hash_7_caracters(hashed_word)           
             if hashreduit == hash_value:
                 return hash_value_table 
-            for k in range(100):     
+            for k in range(1000):     
                                        
                 reduced_hash = reduce_hash_7_caracters(hashed_word)
                 
@@ -104,7 +104,7 @@ def crack_password_8caracters(hash_value, table):
     password = search_rainbow_table(hash_value, table)
     if password:
         print(password)
-        for j in range(100):
+        for j in range(1000):
             word = hash_word(password)
            
             password = reduce_hash_8_caracters(word)
@@ -118,7 +118,7 @@ def crack_password_8caracters(hash_value, table):
             hashreduit = reduce_hash_8_caracters(hashed_word)           
             if hashreduit == hash_value:
                 return hash_value_table  
-            for k in range(100):     
+            for k in range(1000):     
                                        
                 reduced_hash = reduce_hash_8_caracters(hashed_word)
                 
@@ -135,7 +135,7 @@ def crack_password_9caracters(hash_value, table):
     password = search_rainbow_table(hash_value, table)
     if password:
         print(password)
-        for j in range(100):
+        for j in range(1000):
             word = hash_word(password)
            
             password = reduce_hash_9_caracters(word)
@@ -149,7 +149,7 @@ def crack_password_9caracters(hash_value, table):
             hashreduit = reduce_hash_9_caracters(hashed_word)           
             if hashreduit == hash_value:
                 return hash_value_table 
-            for k in range(100):     
+            for k in range(1000):     
                                        
                 reduced_hash = reduce_hash_9_caracters(hashed_word)
               
@@ -166,7 +166,7 @@ def crack_password_10caracters(hash_value, table):
     password = search_rainbow_table(hash_value, table)
     if password:
         print(password)
-        for j in range(100):
+        for j in range(1000):
             word = hash_word(password)
            
             password = reduce_hash_10_caracters(word)
@@ -180,7 +180,7 @@ def crack_password_10caracters(hash_value, table):
             hashreduit = reduce_hash_10_caracters(hashed_word)           
             if hashreduit == hash_value:
                 return hash_value_table  
-            for k in range(100):     
+            for k in range(1000):     
                                        
                 reduced_hash = reduce_hash_10_caracters(hashed_word)
              
@@ -197,7 +197,7 @@ def crack_password_11caracters(hash_value, table):
     password = search_rainbow_table(hash_value, table)
     if password:
         print(password)
-        for j in range(100):
+        for j in range(1000):
             word = hash_word(password)
            
             password = reduce_hash_11_caracters(word)
@@ -211,7 +211,7 @@ def crack_password_11caracters(hash_value, table):
             hashreduit = reduce_hash_11_caracters(hashed_word)           
             if hashreduit == hash_value:
                 return hash_value_table  
-            for k in range(100):     
+            for k in range(1000):     
                                        
                 reduced_hash = reduce_hash_11_caracters(hashed_word)
              
@@ -227,7 +227,7 @@ def crack_password_12caracters(hash_value, table):
     password = search_rainbow_table(hash_value, table)
     if password:
         print(password)
-        for j in range(100):
+        for j in range(1000):
             word = hash_word(password)           
             password = reduce_hash_12_caracters(word)
            
@@ -238,7 +238,7 @@ def crack_password_12caracters(hash_value, table):
             hashreduit = reduce_hash_12_caracters(hashed_word)           
             if hashreduit == hash_value:
                 return hash_value_table  
-            for k in range(100):                                           
+            for k in range(1000):                                           
                 reduced_hash = reduce_hash_12_caracters(hashed_word)              
                 if reduced_hash == hash_value:                  
                     return motdepasse  
