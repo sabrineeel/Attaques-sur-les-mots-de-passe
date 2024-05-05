@@ -39,8 +39,8 @@ def save_table_to_file(table, filename):
             f.write(f"{word},{hash_value}\n")
 
 if __name__ == "__main__":
-    nbr_mots=1000
-    num_iterations = 100
+    nbr_mots=10000
+    num_iterations = 1000
     table = create_rainbow_table(nbr_mots,num_iterations)
     filename = "rainbow_table(12_caracteres).txt"
     save_table_to_file(table, filename)
