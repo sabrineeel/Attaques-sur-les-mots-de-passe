@@ -3,6 +3,7 @@ from tkinter import messagebox
 from tkinter.scrolledtext import ScrolledText
 import hashlib
 import itertools
+import time
 
 def validate_hash(hash_value, hash_type):
     if hash_type == "MD5":
@@ -36,6 +37,7 @@ def generate_combinations(characters, length):
         yield ''.join(combination)
 
 def crack_password():
+    start_time = time.time()
     hash_value = hash_entry.get()
     hash_type = hash_choice.get()
 
@@ -60,7 +62,8 @@ def crack_password():
                 return
             test_text.delete(1.0, tk.END)  
 
-    result_text.insert(tk.END, "Password not found.\n")
+    elapsed_time = time.time() - start_time
+    result_text.insert(tk.END, f"Password found: {combination}\nSearch time: {elapsed_time:.4f} seconds")
     result_text.tag_configure("not_found", foreground="red")
     result_text.tag_add("not_found", "1.0", "end")
 
