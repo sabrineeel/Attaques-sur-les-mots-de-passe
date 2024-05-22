@@ -1,8 +1,5 @@
 import hashlib
-import tkinter as tk
-from tkinter import messagebox
-from tkinter.scrolledtext import ScrolledText
-import time
+
 #fonction de hachage md5:
 def calculate_md5(message):
     hasher = hashlib.md5()
@@ -44,89 +41,54 @@ def generate_variations(word):
                 variations.add(new_word)  # Utiliser add() pour ajouter des éléments à un ensemble
     return list(variations)  # Convertir l'ensemble en liste pour respecter le format d'origine
 
-def crack_password():
- start_time = time.time()
 # Charger le dictionnaire de mots de passe
- dictionnaire = charger_dictionnaire("rockyou")
+dictionnaire = charger_dictionnaire("dic.txt")
 
 # Créer une liste pour stocker toutes les variations de mots de passe
- variations_totales = []
- j=0
+variations_totales = []
+
 
 # Si le dictionnaire est chargé avec succès, générer des variations pour chaque mot de passe et les ajouter à la liste
- if dictionnaire:
+if dictionnaire:
     for mot_de_passe in dictionnaire:
-        print(j,": mot de passe actuel", mot_de_passe) 
+       
         variations = generate_variations(mot_de_passe)
-        print("les variation: ",variations)
+        
         variations_totales.extend(variations)
-        j=j+1
+       
         
 
 
 # Demander à l'utilisateur de saisir un hachage MD5
- hachage_entre = hash_entry.get()
+hachage_entre = input("Entrez le hachage MD5 à rechercher: ")
 
 # Initialiser une variable pour stocker le mot de passe correspondant
- mot_de_passe_correspondant = None
+mot_de_passe_correspondant = None
 
 # Convertir les hachages MD5 dans le dictionnaire en un ensemble pour une recherche plus rapide
- dictionnaire_hachages = set(calculate_md5(mot_de_passe) for mot_de_passe in dictionnaire)
+dictionnaire_hachages = set(calculate_md5(mot_de_passe) for mot_de_passe in dictionnaire)
 
 # Parcourir le dictionnaire et chercher un mot de passe avec le même hachage MD5
- for mot_de_passe in dictionnaire:
+for mot_de_passe in dictionnaire:
     if calculate_md5(mot_de_passe) == hachage_entre:
         mot_de_passe_correspondant = mot_de_passe
         break
 
 # Si un mot de passe correspondant est trouvé dans le dictionnaire, afficher le mot de passe
- if mot_de_passe_correspondant:
-    elapsed_time = time.time() - start_time
-    result_text.insert(tk.END, f"Password found: {mot_de_passe_correspondant}\nSearch time: {elapsed_time:.4f} seconds")
- else:
+if mot_de_passe_correspondant:
+    print("Un mot de passe qui a le même hachage MD5 est :", mot_de_passe_correspondant)
+else:
  # Convertir les hachages MD5 dans la liste de variations en un ensemble pour une recherche plus rapide
-  variations_hachages = []
+ variations_hachages = []
 
-  for mot_de_passe in variations_totales:
+ for mot_de_passe in variations_totales:
     hachage = calculate_md5(mot_de_passe)  # Calculer le hachage MD5
     variations_hachages.append(hachage)  # Ajouter le hachage à la liste variations_hachages
 
 # Rechercher le hachage MD5 entré par l'utilisateur dans la liste des hachages des variations
-  if hachage_entre in variations_hachages:
+ if hachage_entre in variations_hachages:
     index = variations_hachages.index(hachage_entre)
     mot_de_passe_correspondant = variations_totales[index]
-    elapsed_time = time.time() - start_time
-    result_text.insert(tk.END, f"Password found: {mot_de_passe_correspondant}\nSearch time: {elapsed_time:.4f} seconds")
-  else:
-     elapsed_time = time.time() - start_time
-     result_text.insert(tk.END, f"Password not found\nSearch time: {elapsed_time:.4f} seconds")
-
-
-root = tk.Tk()
-root.title("Dictionnaire avec combinaisons")
-
-window_width = 800
-window_height = 600
-screen_width = root.winfo_screenwidth()
-screen_height = root.winfo_screenheight()
-x = (screen_width - window_width) // 2
-y = (screen_height - window_height) // 2
-
-root.geometry(f"{window_width}x{window_height}+{x}+{y}")
-
-
-hash_entry_label = tk.Label(root, text="Hash Value:")
-hash_entry_label.pack()
-hash_entry = tk.Entry(root, width=50)
-hash_entry.pack()
-
-crack_button = tk.Button(root, text="Crack", command=crack_password, width=20)
-crack_button.pack()
-
-result_text = ScrolledText(root, width=70, height=10)
-result_text.pack()
-
-test_text = ScrolledText(root, width=70, height=10)
-test_text.pack()
-
-root.mainloop()
+    print("Un mot de passe qui a le même hachage MD5 est :", mot_de_passe_correspondant)
+ else:
+    print("Le mot de passe n'existe pas.")
