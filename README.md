@@ -7,3 +7,15 @@ courantes telles que les attaques par force brute et les attaques par dictionnai
 
 Pour ce faire, nous développerons un système avancé capable de simuler des attaques de mots de passe en utilisant diverses techniques et plusieurs fonctions de hachage, telles que MD5 et SHA256. Ce système pourra être utilisé pour évaluer la sécurité des mots de passe, fournissant ainsi des
 informations précieuses pour améliorer la sécurité des utilisateurs individuels et des entreprises.
+
+## 👥 Contributors
+
+DOB Serine
+
+NAIT-CHERIF Sabrinel
+
+SALHI Racha
+
+GUENDOUL Hayat
+
+GHOMARI Djazia
